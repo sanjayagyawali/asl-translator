@@ -6,8 +6,6 @@ if __name__ == "__main__":
 
    video_files = []
    for word in words:
-      print(word)
-      print(words)
       video_files.append(VideoFileClip(word))
       # Add text to clip
       word_txt = word.split("/")[2].split(".")[0]
