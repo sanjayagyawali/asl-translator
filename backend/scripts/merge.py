@@ -1,5 +1,6 @@
 from sys import argv, stdout
 from moviepy.editor import *
+import time
 
 if __name__ == "__main__":
    words = eval(argv[1])
@@ -15,6 +16,7 @@ if __name__ == "__main__":
       
    final = concatenate_videoclips(video_files)
    final.write_videofile("./videos/final/merged.mp4")
-   stdout.flush()
    
+   time.sleep(1) # waits to clear buffer
+   stdout.flush()
    print("videos/final/merged.mp4",end="")
