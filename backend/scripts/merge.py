@@ -1,10 +1,10 @@
 from sys import argv, stdout
 from moviepy.editor import *
 import time
+import random
 
 if __name__ == "__main__":
    words = eval(argv[1])
-
    video_files = []
    for word in words:
       video_files.append(VideoFileClip(word))
@@ -14,9 +14,10 @@ if __name__ == "__main__":
       text_clip = text_clip.set_pos('bottom').set_duration(video_files[-1].duration)
       video_files[-1] = CompositeVideoClip([video_files[-1], text_clip]) 
       
+   x = random.randint(0,10000)
    final = concatenate_videoclips(video_files)
-   final.write_videofile("./videos/final/merged.mp4")
+   final.write_videofile(f"./videos/final/merged{x}.mp4")
    
    time.sleep(1) # waits to clear buffer
    stdout.flush()
-   print("videos/final/merged.mp4",end="")
+   print(f"videos/final/merged{x}.mp4",end="")

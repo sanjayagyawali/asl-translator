@@ -27,8 +27,6 @@ const App = () => {
     await console.log(container);
   }, []);
 
-  const VideoPlayer = ({ url }) => <video key={Math.random()} src={url} controls autoPlay muted />
-
   async function sendToBackend()
   {
     setLink(null);
@@ -80,7 +78,7 @@ const App = () => {
                     </Stack> 
                 </div> 
                 <img src={logo} alt = "logo" height={150} width={150}/> 
-                {link && <VideoPlayer url={link} />}
+                {link && <video src={link} controls autoPlay muted/>}
             </header> 
         </div> 
         
