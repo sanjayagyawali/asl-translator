@@ -10,6 +10,7 @@ import Stack from '@mui/system/Stack';
 const App = () => {
     const [sentence, setSentence] = React.useState('');
     const [link, setLink] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
     const handleChange = (event) => {
         setSentence(event.target.value);
     };
@@ -29,6 +30,7 @@ const App = () => {
 
   async function sendToBackend()
   {
+    setLoading(true);
     setLink(null);
     await fetch("http://localhost:5000/translate", {
         method: 'POST',
@@ -41,8 +43,12 @@ const App = () => {
         .then(res => res.json())
         .then(data => {
             setLink(data.link);
+            setLoading(false);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            setLoading(false);
+        });
   }
 
   return ( 
@@ -64,11 +70,10 @@ const App = () => {
                         fullWidth color="warning"
                         onChange={handleChange}
                         /> 
-                        {sentence ? 
+                        {sentence && !loading ? 
                         <Button onClick={() => sendToBackend()}
                             color = "secondary" 
                             variant="contained">Translate</Button> 
-                            
                         : <Button onClick={() => sendToBackend()}
                             disabled
                             color = "secondary" 
@@ -77,7 +82,9 @@ const App = () => {
                         
                     </Stack> 
                 </div> 
-                <img src={logo} alt = "logo" height={150} width={150}/> 
+                <img src={logo} 
+                className={loading ? "spin" : ""}
+                alt = "logo" height={150} width={150}/> 
                 {link && <video src={link} controls autoPlay muted/>}
             </header> 
         </div> 
