@@ -9,6 +9,7 @@ const { spawn } = require("child_process");
 
 const app = express();
 app.use(express.json());
+app.use(express.static("./videos"));
 
 const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
 
@@ -41,8 +42,8 @@ app.post("/translate", async (req, res) => {
         const urls = wordList.map(l => [l, urlBuilder(l)]);
 
         const paths = await Promise.all(urls.map(([word, url]) => downloadVideo(url, word)));
-        const parsedPaths = paths.map(path => `\\"${path}\\"`);
-        const thingToSendToPython = `'[${parsedPaths.join(",")}]'`;
+        const parsedPaths = paths.map(path => `\"${path}\"`);
+        const thingToSendToPython = `[${parsedPaths.join(",")}]`;
 
         const pyRes = await callPythonScript(thingToSendToPython);
         const linkToMergedVid = `http://localhost:5000/${pyRes}`;
@@ -108,7 +109,7 @@ async function downloadVideo(url, word)
         const videoUrl = await getVideoLink(url);
         const filePath = path.join("./src", "..", "videos", `${word}.mp4`);
         await downloadVideoToServer(videoUrl, filePath);
-        return `../videos/${word}.mp4`;
+        return `./videos/${word}.mp4`;
     } 
     catch (err) 
     {
