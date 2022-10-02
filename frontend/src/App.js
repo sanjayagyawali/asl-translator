@@ -60,8 +60,9 @@ const App = () => {
                         id="sentence" 
                         label="Enter a Sentence" 
                         multiline variant="filled" 
-                        fullWidth color="warning" 
+                        fullWidth color="warning"
                         onChange={handleChange}
+                        required
                         /> 
 
                         <Button onClick={() => sendToBackend()} 
@@ -69,7 +70,8 @@ const App = () => {
                             variant="contained">Translate</Button> 
                     </Stack> 
                 </div> 
-                    <img src={logo} alt = "logo" height={150} width={150}/> 
+                <img src={logo} alt = "logo" height={150} width={150}/> 
+                {link && <video src={link} />}
             </header> 
         </div> 
         
