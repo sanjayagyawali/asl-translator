@@ -30,6 +30,7 @@ const App = () => {
   async function sendToBackend()
   {
     await fetch("http://localhost:5000/translate", {
+        mode: "no-cors",
         method: 'POST',
         body: JSON.stringify({
            words: sentence,
