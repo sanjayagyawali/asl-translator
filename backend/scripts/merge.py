@@ -13,7 +13,7 @@ if __name__ == "__main__":
       video_files[-1] = CompositeVideoClip([video_files[-1], text_clip]) 
       
    final = concatenate_videoclips(video_files)
-   final.write_videofile("../videos/final/merged.mp4")
-   print("videos/final/merged.mp4")
-
+   final.write_videofile("./videos/final/merged.mp4")
    stdout.flush()
+
+   print("videos/final/merged.mp4", end="")
