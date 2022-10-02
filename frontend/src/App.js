@@ -1,10 +1,11 @@
-import { useCallback } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
-import logo from './logo.svg';
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import { useCallback } from "react"; 
+import Particles from "react-tsparticles"; 
+import { loadFull } from "tsparticles"; 
+import logo from './logo.svg'; 
+import React from 'react'; 
+import TextField from '@mui/material/TextField'; 
+import Button from '@mui/material/Button'; 
+import Stack from '@mui/system/Stack';
 
 const App = () => {
   const particlesInit = useCallback(async (engine) => {
@@ -20,23 +21,36 @@ const App = () => {
     await console.log(container);
   }, []);
 
-  return (
-    <div>
-            
-        <div className = "App">
-
+  return ( 
+  
+    <div> 
+        <div className = "App"> 
             <header className = "App-header"> 
-                <div className = "field" id="text-input" >
-                    <div>
-                        <input type="text" className = "fieldinput" placeholder = "Enter a Sentence"></input>
-                    </div>
-                </div>
-                
+                <div> 
+                    <Stack component="form" 
+                        sx={{ width: '25ch', }} 
+                        spacing={2} 
+                        noValidate 
+                        autoComplete="off" > 
 
-                <img src={logo} alt = "logo" height={150} width={150}/>
-            </header>
-            
-        </div>
+                        <TextField 
+                        id="sentence" 
+                        label="Enter a Sentence" 
+                        multiline variant="filled" 
+                        fullWidth color="warning" /> 
+
+                        <Button onClick={() => { 
+                            fetch('') 
+                            .then((response) => response.json()) 
+                            .then((data) => alert(data)); }} 
+                            color = "secondary" 
+                            variant="contained">Translate</Button> 
+                    </Stack> 
+                </div> 
+                    <img src={logo} alt = "logo" height={150} width={150}/> 
+            </header> 
+        </div> 
+        
 
         <div id= "particles">
             
@@ -55,7 +69,7 @@ const App = () => {
                 interactivity: {
                 events: {
                     onClick: {
-                    enable: true,
+                    enable: false,
                     mode: "push",
                     },
                     onHover: {
