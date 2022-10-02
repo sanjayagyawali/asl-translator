@@ -1,0 +1,15 @@
+{
+  "name": "asl-backend",
+  "version": "1.0.0",
+  "description": "It's the backend for our awesome website. Trust trust",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
