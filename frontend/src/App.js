@@ -9,7 +9,7 @@ import Stack from '@mui/system/Stack';
 
 const App = () => {
     const [sentence, setSentence] = React.useState('');
-    const [link, setLink] = React.useState("");
+    const [link, setLink] = React.useState(null);
     const handleChange = (event) => {
         setSentence(event.target.value);
     };
@@ -29,6 +29,7 @@ const App = () => {
 
   async function sendToBackend()
   {
+    setLink(null);
     await fetch("http://localhost:5000/translate", {
         method: 'POST',
         body: JSON.stringify({
@@ -77,7 +78,7 @@ const App = () => {
                     </Stack> 
                 </div> 
                 <img src={logo} alt = "logo" height={150} width={150}/> 
-                {link && <video src={link} />}
+                {link && <video src={link} controls/>}
             </header> 
         </div> 
         
