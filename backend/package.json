@@ -4,13 +4,17 @@
   "description": "It's the backend for our awesome website. Trust trust",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nodemon src/",
     "start": "node src/"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
