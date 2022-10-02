@@ -14,6 +14,18 @@ const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
  * 6. python merge.py '[\"path/to/clip1\", \"path/to/clip2\"]'
  */
 
+
+// How to use this
+/**
+ * 
+
+http://localhost:5000/translate
+BODY
+{
+  "words": "this is the thing I wanna translate"
+}
+
+ */
 app.post("/translate", async (req, res) => {
     const { words } = req.body;
 
