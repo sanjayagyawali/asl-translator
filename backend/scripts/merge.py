@@ -1,4 +1,4 @@
-from sys import argv
+from sys import argv, stdout
 from moviepy.editor import *
 
 if __name__ == "__main__":
@@ -14,3 +14,6 @@ if __name__ == "__main__":
       
    final = concatenate_videoclips(video_files)
    final.write_videofile("../videos/final/merged.mp4")
+   print("videos/final/merged.mp4")
+
+   stdout.flush()

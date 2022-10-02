@@ -5,6 +5,7 @@ const path = require("path");
 const stream = require("stream");
 const { promisify } = require("util");
 const { createWriteStream } = require("fs");
+const { spawn } = require("child_process");
 
 const app = express();
 app.use(express.json());
@@ -44,16 +45,12 @@ app.post("/translate", async (req, res) => {
         const thingToSendToPython = `'[${parsedPaths.join(",")}]'`;
 
         const pyRes = await callPythonScript(thingToSendToPython);
+        const linkToMergedVid = `http://localhost:5000/${pyRes}`;
 
         res.status(200).send({
-            message: pyRes
+            link: linkToMergedVid
         });
     }
-});
-
-app.get("/test", async (req, res) => {
-
-    
 });
 
 async function getVideoLink(url)
@@ -122,7 +119,25 @@ async function downloadVideo(url, word)
 
 async function callPythonScript(arg) 
 {
+    var dataToSend;
+    const python = spawn("python3", ["./scripts/merge.py", arg]);
+    return new Promise((resolve, reject) => {
+        python.stdout.on("data", data => {
+            dataToSend = data.toString();
+        });
 
+        python.stderr.on("data", data => {
+            console.log("ERROR:", data.toString());
+        });
+
+        python.on("exit", code => {
+            if(code != 0)
+                reject("An error has occured! Scroll up!");
+
+            console.log("Finished running merge.py", code);
+            resolve(dataToSend);
+        });
+    });
 }
 
 
