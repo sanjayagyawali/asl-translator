@@ -8,7 +8,13 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/system/Stack';
 
 const App = () => {
-  const particlesInit = useCallback(async (engine) => {
+    const [sentence, setSentence] = React.useState('');
+    const [link, setLink] = React.useState("");
+    const handleChange = (event) => {
+        setSentence(event.target.value);
+    };
+
+    const particlesInit = useCallback(async (engine) => {
     console.log(engine);
     // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
@@ -20,6 +26,24 @@ const App = () => {
   const particlesLoaded = useCallback(async (container) => {
     await console.log(container);
   }, []);
+
+  async function sendToBackend()
+  {
+    await fetch("http://localhost:5000/translate", {
+        mode: "no-cors",
+        method: 'POST',
+        body: JSON.stringify({
+           words: sentence,
+        }),
+        headers: {
+           'Content-type': 'application/json; charset=UTF-8',
+        },})
+        .then(res => res.json())
+        .then(data => {
+            setLink(data.link);
+        })
+        .catch(err => console.log(err));
+  }
 
   return ( 
   
@@ -37,17 +61,24 @@ const App = () => {
                         id="sentence" 
                         label="Enter a Sentence" 
                         multiline variant="filled" 
-                        fullWidth color="warning" /> 
-
-                        <Button onClick={() => { 
-                            fetch('') 
-                            .then((response) => response.json()) 
-                            .then((data) => alert(data)); }} 
+                        fullWidth color="warning"
+                        onChange={handleChange}
+                        /> 
+                        {sentence ? 
+                        <Button onClick={() => sendToBackend()}
                             color = "secondary" 
                             variant="contained">Translate</Button> 
+                            
+                        : <Button onClick={() => sendToBackend()}
+                            disabled
+                            color = "secondary" 
+                            variant="contained">Translate</Button> 
+                        }
+                        
                     </Stack> 
                 </div> 
-                    <img src={logo} alt = "logo" height={150} width={150}/> 
+                <img src={logo} alt = "logo" height={150} width={150}/> 
+                {link && <video src={link} />}
             </header> 
         </div> 
         
