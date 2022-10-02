@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const cheerio = require("cheerio");
 const axios = require("axios");
 const path = require("path");
@@ -10,6 +11,7 @@ const { spawn } = require("child_process");
 const app = express();
 app.use(express.json());
 app.use(express.static("./videos/final"));
+app.use(cors());
 
 const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
 
