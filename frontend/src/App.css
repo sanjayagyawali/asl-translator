@@ -44,3 +44,17 @@
 
   pointer-events: none;
 }
+
+.spin {
+  animation: 4s ease-in infinite spinning;
+}
+
+@keyframes spinning {
+  from {
+    rotate: 0deg;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}
