@@ -78,7 +78,7 @@ const App = () => {
                     </Stack> 
                 </div> 
                 <img src={logo} alt = "logo" height={150} width={150}/> 
-                {link && <video src={link} controls/>}
+                {link && <video src={link} controls autoPlay muted/>}
             </header> 
         </div> 
         
