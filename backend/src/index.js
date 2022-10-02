@@ -23,6 +23,10 @@ const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
  */
 
 
+app.get("/videos/final/:fileName", (req, res)=>{
+    res.sendFile(`final/${req.params.fileName}`);
+});
+
 // How to use this
 /**
 
