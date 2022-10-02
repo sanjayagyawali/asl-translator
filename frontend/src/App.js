@@ -64,10 +64,17 @@ const App = () => {
                         onChange={handleChange}
                         required
                         /> 
-
-                        <Button onClick={() => sendToBackend()} 
+                        {sentence ? 
+                        <Button onClick={() => sendToBackend()}
                             color = "secondary" 
                             variant="contained">Translate</Button> 
+                            
+                        : <Button onClick={() => sendToBackend()}
+                            disabled
+                            color = "secondary" 
+                            variant="contained">Translate</Button> 
+                        }
+                        
                     </Stack> 
                 </div> 
                 <img src={logo} alt = "logo" height={150} width={150}/> 
