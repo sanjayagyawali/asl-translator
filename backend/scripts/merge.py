@@ -3,6 +3,7 @@ from moviepy.editor import *
 
 if __name__ == "__main__":
    words = eval(argv[1])
+
    video_files = []
    for word in words:
       video_files.append(VideoFileClip(word))
@@ -13,7 +14,7 @@ if __name__ == "__main__":
       video_files[-1] = CompositeVideoClip([video_files[-1], text_clip]) 
       
    final = concatenate_videoclips(video_files)
-   final.write_videofile("../videos/final/merged.mp4")
-   print("videos/final/merged.mp4")
-
+   final.write_videofile("./videos/final/merged.mp4")
    stdout.flush()
+   
+   print("videos/final/merged.mp4",end="")

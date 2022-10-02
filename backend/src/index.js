@@ -9,6 +9,7 @@ const { spawn } = require("child_process");
 
 const app = express();
 app.use(express.json());
+app.use(express.static("./videos/final"));
 
 const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
 
@@ -21,6 +22,10 @@ const urlBuilder = word => `https://www.signingsavvy.com/sign/${word}`;
  * 6. python merge.py '[\"path/to/clip1\", \"path/to/clip2\"]'
  */
 
+
+app.get("/videos/final/:fileName", (req, res)=>{
+    res.sendFile(path.resolve(`${__dirname}/../videos/final/${req.params.fileName}`));
+});
 
 // How to use this
 /**
@@ -41,8 +46,8 @@ app.post("/translate", async (req, res) => {
         const urls = wordList.map(l => [l, urlBuilder(l)]);
 
         const paths = await Promise.all(urls.map(([word, url]) => downloadVideo(url, word)));
-        const parsedPaths = paths.map(path => `\\"${path}\\"`);
-        const thingToSendToPython = `'[${parsedPaths.join(",")}]'`;
+        const parsedPaths = paths.map(path => `\"${path}\"`);
+        const thingToSendToPython = `[${parsedPaths.join(",")}]`;
 
         const pyRes = await callPythonScript(thingToSendToPython);
         const linkToMergedVid = `http://localhost:5000/${pyRes}`;
@@ -108,7 +113,7 @@ async function downloadVideo(url, word)
         const videoUrl = await getVideoLink(url);
         const filePath = path.join("./src", "..", "videos", `${word}.mp4`);
         await downloadVideoToServer(videoUrl, filePath);
-        return `../videos/${word}.mp4`;
+        return `./videos/${word}.mp4`;
     } 
     catch (err) 
     {
@@ -120,7 +125,7 @@ async function downloadVideo(url, word)
 async function callPythonScript(arg) 
 {
     var dataToSend;
-    const python = spawn("python3", ["./scripts/merge.py", arg]);
+    const python = spawn("python", ["./scripts/merge.py", arg]);
     return new Promise((resolve, reject) => {
         python.stdout.on("data", data => {
             dataToSend = data.toString();
