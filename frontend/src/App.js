@@ -62,7 +62,6 @@ const App = () => {
                         multiline variant="filled" 
                         fullWidth color="warning"
                         onChange={handleChange}
-                        required
                         /> 
                         {sentence ? 
                         <Button onClick={() => sendToBackend()}
