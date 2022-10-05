@@ -47,7 +47,7 @@ app.post("/translate", async (req, res) => {
         const wordList = words.split(" ");
         const urls = wordList.map(l => [l, urlBuilder(l)]);
 
-        const paths = await Promise.all(urls.map(([word, url]) => downloadVideo(url, word)));
+        const paths = (await Promise.all(urls.map(([word, url]) => downloadVideo(url, word)))).filter(e => !!e);
         const parsedPaths = paths.map(path => `\"${path}\"`);
         const thingToSendToPython = `[${parsedPaths.join(",")}]`;
 
@@ -120,7 +120,7 @@ async function downloadVideo(url, word)
     catch (err) 
     {
         console.log(err);
-        return "";
+        return null;
     }
 }
 
@@ -131,6 +131,7 @@ async function callPythonScript(arg)
     return new Promise((resolve, reject) => {
         python.stdout.on("data", data => {
             dataToSend = data.toString();
+            console.log(dataToSend);
         });
 
         python.stderr.on("data", data => {
@@ -142,6 +143,7 @@ async function callPythonScript(arg)
                 reject("An error has occured! Scroll up!");
 
             console.log("Finished running merge.py", code);
+            console.log(dataToSend);
             resolve(dataToSend);
         });
     });
