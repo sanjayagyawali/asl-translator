@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     x = random.randint(0, 10000)
     final = concatenate_videoclips(video_files)
-    final.write_videofile(f"./videos/final/merged{x}.mp4")
+    final.write_videofile(f"./videos/final/merged{x}.mp4", logger=None)
 
     time.sleep(1)  # waits to clear buffer
     stdout.flush()
