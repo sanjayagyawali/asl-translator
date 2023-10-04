@@ -155,6 +155,8 @@ async function callPythonScript(arg) {
 
       console.log("Finished running merge.py", code);
       console.log(dataToSend);
+      dataToSend = dataToSend.split("XX");
+      dataToSend = dataToSend[dataToSend.length - 1];
       resolve(dataToSend);
     });
   });
