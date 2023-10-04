@@ -1,4 +1,4 @@
-from sys import argv, stdout
+from sys import argv, stdout, os
 from moviepy.editor import *
 import time
 import random
@@ -18,9 +18,12 @@ if __name__ == "__main__":
         video_files[-1] = CompositeVideoClip([video_files[-1], text_clip])
 
     x = random.randint(0, 10000)
+    old_stdout = sys.stdout # backup current stdout
+    sys.stdout = open(os.devnull, "w")
     final = concatenate_videoclips(video_files)
     final.write_videofile(f"./videos/final/merged{x}.mp4", logger=None)
-
-    time.sleep(1)  # waits to clear buffer
-    stdout.flush()
+    sys.stdout = old_stdout # reset old stdout
+    
+    # time.sleep(1)  # waits to clear buffer
+    # stdout.flush()
     print(f"videos/final/merged{x}.mp4", end="")

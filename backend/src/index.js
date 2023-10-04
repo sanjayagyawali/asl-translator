@@ -146,9 +146,9 @@ async function callPythonScript(arg) {
       console.log(dataToSend);
     });
 
-    python.stderr.on("data", (data) => {
-      console.log("ERROR:", data.toString());
-    });
+    // python.stderr.on("data", (data) => {
+    //   console.log("ERROR:", data.toString());
+    // });
 
     python.on("exit", (code) => {
       if (code != 0) reject("An error has occured! Scroll up!");
