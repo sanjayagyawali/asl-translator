@@ -1,177 +1,187 @@
-import { useCallback } from "react"; 
-import Particles from "react-tsparticles"; 
-import { loadFull } from "tsparticles"; 
-import logo from './logo.svg'; 
-import React from 'react'; 
-import TextField from '@mui/material/TextField'; 
-import Button from '@mui/material/Button'; 
-import Stack from '@mui/system/Stack';
+import { useCallback } from "react";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
+import logo from "./logo.svg";
+import React from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/system/Stack";
 
 const App = () => {
-    const [sentence, setSentence] = React.useState('');
-    const [link, setLink] = React.useState(null);
-    const [loading, setLoading] = React.useState(false);
-    const handleChange = (event) => {
-        setSentence(event.target.value);
-    };
+  const [sentence, setSentence] = React.useState("");
+  const [link, setLink] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const handleChange = (event) => {
+    setSentence(event.target.value);
+  };
 
-    const particlesInit = useCallback(async (engine) => {
+  const particlesInit = useCallback(async (engine) => {
     console.log(engine);
     // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
     // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(engine);
-    
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
     await console.log(container);
   }, []);
 
-  async function sendToBackend()
-  {
+  async function sendToBackend() {
     setLoading(true);
     setLink(null);
-    await fetch("http://localhost:5000/translate", {
-        method: 'POST',
-        body: JSON.stringify({
-           words: sentence,
-        }),
-        headers: {
-           'Content-type': 'application/json; charset=UTF-8',
-        },})
-        .then(res => res.json())
-        .then(data => {
-            setLink(data.link);
-            setLoading(false);
-        })
-        .catch(err => {
-            console.log(err);
-            setLoading(false);
-        });
+    await fetch(`http://198.199.90.102:5000/translate`, {
+      method: "POST",
+      body: JSON.stringify({
+        words: sentence,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLink(data.link);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }
 
-  return ( 
-  
-    <div> 
-        <div className = "App"> 
-            <header className = "App-header"> 
-                <div> 
-                    <Stack component="form" 
-                        sx={{ width: '25ch', }} 
-                        spacing={2} 
-                        noValidate 
-                        autoComplete="off" > 
+  return (
+    <div>
+      <div className="App">
+        <header className="App-header">
+          <div>
+            <Stack
+              component="form"
+              sx={{ width: "25ch" }}
+              spacing={2}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="sentence"
+                label="Enter a Sentence"
+                multiline
+                variant="filled"
+                fullWidth
+                color="warning"
+                onChange={handleChange}
+              />
+              {sentence && !loading ? (
+                <Button
+                  onClick={() => sendToBackend()}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Translate
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => sendToBackend()}
+                  disabled
+                  color="secondary"
+                  variant="contained"
+                >
+                  Translate
+                </Button>
+              )}
+            </Stack>
+          </div>
+          <img
+            src={logo}
+            className={loading ? "spin" : ""}
+            alt="logo"
+            height={150}
+            width={150}
+          />
+          {link && <video src={link} controls autoPlay muted />}
+        </header>
+      </div>
 
-                        <TextField 
-                        id="sentence" 
-                        label="Enter a Sentence" 
-                        multiline variant="filled" 
-                        fullWidth color="warning"
-                        onChange={handleChange}
-                        /> 
-                        {sentence && !loading ? 
-                        <Button onClick={() => sendToBackend()}
-                            color = "secondary" 
-                            variant="contained">Translate</Button> 
-                        : <Button onClick={() => sendToBackend()}
-                            disabled
-                            color = "secondary" 
-                            variant="contained">Translate</Button> 
-                        }
-                        
-                    </Stack> 
-                </div> 
-                <img src={logo} 
-                className={loading ? "spin" : ""}
-                alt = "logo" height={150} width={150}/> 
-                {link && <video src={link} controls autoPlay muted/>}
-            </header> 
-        </div> 
-        
+      <div id="particles">
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          loaded={particlesLoaded}
+          options={{
+            background: {
+              color: {
+                value: "#5f459d",
+              },
+            },
 
-        <div id= "particles">
-            
-            <Particles
-            id="tsparticles"
-            init={particlesInit}
-            loaded={particlesLoaded}
-            options={{
-                background: {
-                color: {
-                    value: "#5f459d",
+            fpsLimit: 120,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: false,
+                  mode: "push",
                 },
+                onHover: {
+                  enable: true,
+                  mode: "repulse",
                 },
-                
-                fpsLimit: 120,
-                interactivity: {
-                events: {
-                    onClick: {
-                    enable: false,
-                    mode: "push",
-                    },
-                    onHover: {
-                    enable: true,
-                    mode: "repulse",
-                    },
-                    resize: true,
+                resize: true,
+              },
+              modes: {
+                push: {
+                  quantity: 4,
                 },
-                modes: {
-                    push: {
-                    quantity: 4,
-                    },
-                    repulse: {
-                    distance: 150,
-                    duration: 0.4,
-                    },
+                repulse: {
+                  distance: 150,
+                  duration: 0.4,
                 },
+              },
+            },
+            particles: {
+              color: {
+                value: "#ffffff",
+              },
+              links: {
+                color: "#ffffff",
+                distance: 150,
+                enable: true,
+                opacity: 0.5,
+                width: 1,
+              },
+              collisions: {
+                enable: false,
+              },
+              move: {
+                directions: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
                 },
-                particles: {
-                color: {
-                    value: "#ffffff",
+                random: false,
+                speed: 3,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                  area: 800,
                 },
-                links: {
-                    color: "#ffffff",
-                    distance: 150,
-                    enable: true,
-                    opacity: 0.5,
-                    width: 1,
-                },
-                collisions: {
-                    enable: false,
-                },
-                move: {
-                    directions: "none",
-                    enable: true,
-                    outModes: {
-                    default: "bounce",
-                    },
-                    random: false,
-                    speed: 3,
-                    straight: false,
-                },
-                number: {
-                    density: {
-                    enable: true,
-                    area: 800,
-                    },
-                    value: 80,
-                },
-                opacity: {
-                    value: 0.3,
-                },
-                shape: {
-                    type: "circle",
-                },
-                size: {
-                    value: { min: 1, max: 5 },
-                },
-                },
-                detectRetina: true,
-            }}
-            />
-        </div>
-
+                value: 80,
+              },
+              opacity: {
+                value: 0.3,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 5 },
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+      </div>
     </div>
   );
 };
