@@ -13,7 +13,7 @@ services:
   asl-frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: DockerfileDev
     environment:
       - PORT=80
     ports:
