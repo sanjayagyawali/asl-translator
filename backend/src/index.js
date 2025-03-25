@@ -58,7 +58,7 @@ app.post("/translate", async (req, res) => {
     const parsedPaths = paths.map((path) => `\"${path}\"`);
     const thingToSendToPython = `[${parsedPaths.join(",")}]`;
     const pyRes = await callPythonScript(thingToSendToPython);
-    const linkToMergedVid = `http://198.199.90.102:5000/${pyRes}`;
+    const linkToMergedVid = `/${pyRes}`;
 
     res.status(200).send({
       link: linkToMergedVid,

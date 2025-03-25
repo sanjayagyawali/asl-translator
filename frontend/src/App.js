@@ -30,7 +30,7 @@ const App = () => {
   async function sendToBackend() {
     setLoading(true);
     setLink(null);
-    await fetch(`http://198.199.90.102:5000/translate`, {
+    await fetch(`http://${window.location.host}/api/translate`, {
       method: "POST",
       body: JSON.stringify({
         words: sentence,
@@ -41,7 +41,7 @@ const App = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLink(data.link);
+        setLink(`http://${window.location.host}/api${data.link}`);
         setLoading(false);
       })
       .catch((err) => {

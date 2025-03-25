@@ -12,4 +12,6 @@ RUN apk --no-cache add msttcorefonts-installer fontconfig && \
  update-ms-fonts && \
  fc-cache -f
 
+EXPOSE 5000
+
 CMD ["npm", "run", "start"]
